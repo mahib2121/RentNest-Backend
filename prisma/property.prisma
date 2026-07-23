@@ -1,0 +1,35 @@
+model Property {
+  id                 String           @id @default(uuid())
+
+  landlordId         String           @map("landlord_id")
+  categoryId         String           @map("category_id")
+
+  title              String           @db.VarChar(150)
+  description        String
+
+  rentPrice          Decimal          @db.Decimal(10, 2) @map("rent_price")
+
+  bedrooms           Int
+  bathrooms          Int
+  areaSqft           Int              @map("area_sqft")
+
+  address            String
+  city               String           @db.VarChar(100)
+  division           String           @db.VarChar(100)
+  postalCode         String?          @map("postal_code")
+
+  latitude           Decimal?         @db.Decimal(10, 7)
+  longitude          Decimal?         @db.Decimal(10, 7)
+
+  availableFrom      DateTime         @map("available_from")
+  availabilityStatus PropertyStatus   @default(AVAILABLE) @map("availability_status")
+
+  createdAt          DateTime         @default(now()) @map("created_at")
+  updatedAt          DateTime         @updatedAt @map("updated_at")
+
+  // Relations
+  //landlord User @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@map("properties")
+}
