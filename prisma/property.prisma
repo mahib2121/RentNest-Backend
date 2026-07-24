@@ -28,8 +28,10 @@ model Property {
   updatedAt          DateTime         @updatedAt @map("updated_at")
 
   // Relations
-  //landlord User @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+  landlord User @relation(fields: [landlordId], references: [id], onDelete: Cascade)
   category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  rentalRequests RentalRequest[]
+  reviews        Review[]
 
   @@map("properties")
 }

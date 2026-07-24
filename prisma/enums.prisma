@@ -34,3 +34,19 @@ enum PaymentStatus {
   FAILED
   REFUNDED
 }
+
+
+enum RentalRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CARD
+  MOBILE_BANKING
+  BANK_TRANSFER
+}
+
+

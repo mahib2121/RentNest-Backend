@@ -1,0 +1,24 @@
+model RentalRequest {
+  id              String               @id @default(uuid())
+
+  propertyId      String               @map("property_id")
+  tenantId        String               @map("tenant_id")
+
+  moveInDate      DateTime             @map("move_in_date")
+  durationMonths  Int                  @map("duration_months")
+
+  message         String?
+
+  status          RentalRequestStatus  @default(PENDING)
+
+  createdAt       DateTime             @default(now()) @map("created_at")
+  updatedAt       DateTime             @updatedAt @map("updated_at")
+
+  property         Property            @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  tenant           User                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  payment          Payment?
+  review           Review?
+
+  @@map("rental_requests")
+}

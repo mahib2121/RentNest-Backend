@@ -15,10 +15,9 @@ model User {
   updatedAt    DateTime   @updatedAt @map("updated_at")
 
   // Relations
-  //properties      Property[]       @relation("LandlordProperties")
-//   rentalRequests  RentalRequest[]  @relation("TenantRentalRequests")
-//   reviews         Review[]
-//   payments        Payment[]
+  properties      Property[]
+  rentalRequests  RentalRequest[] 
+  reviews         Review[] 
 
   @@map("users")
 }
