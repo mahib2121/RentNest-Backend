@@ -8,6 +8,7 @@ import { globalErrorHandler } from "./middleware/globalErrorHandler";
 import { notFound } from "./middleware/notFound";
 import { categoryRoutes } from "./module/category/category.routes";
 import { propertyRoutes } from "./module/Properties/properties.route";
+import { rentalRequestRoutes } from "./module/rental-request/rental-request.routes";
 const app: Application = express();
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, World! RentNest");
@@ -26,6 +27,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/properties", propertyRoutes);
+app.use("/api/rental-requests", rentalRequestRoutes);
 app.use(notFound);
 app.use(globalErrorHandler);
 export default app;
