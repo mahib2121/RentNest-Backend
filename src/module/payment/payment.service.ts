@@ -82,31 +82,35 @@ const createCheckout = async (
 };
 
 // Placeholder for webhook handling (to update the Payment status to PAID)
-// const handleWebhook = async (payload: Buffer, signature: string) => {
-//   const endpointSecret = config.stripe_webhook_secret;
-//   const event = stripe.webhooks.constructEvent(payload, signature, endpointSecret);
+const handleWebhook = async (payload: Buffer, signature: string) => {
+  const endpointSecret = config.stripe_webhook_secret;
+  const event = stripe.webhooks.constructEvent(
+    payload,
+    signature,
+    endpointSecret as string,
+  );
 
-//   switch (event.type) {
-//     case "checkout.session.completed":
-//       const session = event.data.object as any;
+  switch (event.type) {
+    case "checkout.session.completed":
+      const session = event.data.object as any;
 
-//       // Update the Payment status in the database using the transactionId we saved earlier
-//       await prisma.payment.update({
-//         where: { transactionId: session.id },
-//         data: {
-//           status: PaymentStatus.SUCCESS, // Adjust to match your actual enum value
-//           paidAt: new Date(),
-//         },
-//       });
+      // Update the Payment status in the database using the transactionId we saved earlier
+      await prisma.payment.update({
+        where: { transactionId: session.id },
+        data: {
+          status: PaymentStatus.SUCCESS, // Adjust to match your actual enum value
+          paidAt: new Date(),
+        },
+      });
 
-//       // Optional: Update RentalRequest status to APPROVED or similar
-//       break;
-//     default:
-//       console.log(`Unhandled event type ${event.type}.`);
-//   }
-// };
+      // Optional: Update RentalRequest status to APPROVED or similar
+      break;
+    default:
+      console.log(`Unhandled event type ${event.type}.`);
+  }
+};
 
 export const paymentService = {
   createCheckout,
-  //handleWebhook,
+  handleWebhook,
 };
