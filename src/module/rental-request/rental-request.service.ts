@@ -15,11 +15,11 @@ export const RentalRequestService = {
     });
   },
 
-  // LANDLORD: Get all requests for their properties (with optional status filter)
+  // LANDLORD: Get all requests for their properties
   getLandlordRequests: async (landlordId: string, status?: any) => {
     const whereCondition: any = {
       property: {
-        landlordId: landlordId, // Assumes your Property model has a landlordId field
+        landlordId: landlordId,
       },
     };
 
@@ -45,7 +45,6 @@ export const RentalRequestService = {
     requestId: string,
     payload: IUpdateRequestStatus,
   ) => {
-    // 1. Find the request and verify ownership
     const request = await prisma.rentalRequest.findUnique({
       where: { id: requestId },
       include: { property: true },
@@ -59,7 +58,6 @@ export const RentalRequestService = {
       throw new Error("Unauthorized: You do not own this property");
     }
 
-    // 2. Update the status
     return await prisma.rentalRequest.update({
       where: { id: requestId },
       data: { status: payload.status },

@@ -11,4 +11,5 @@ export default {
   jwt_refresh: process.env.JWT_REFRESH_TOKEN_SECRET!,
   jwt_expiry: process.env.JWT_EXPIRY!,
   app_URL: process.env.APP_URL,
+  stripeKey: process.env.STRIPE_SECRIT_KEY!,
 };

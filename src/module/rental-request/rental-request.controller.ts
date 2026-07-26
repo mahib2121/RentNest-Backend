@@ -4,7 +4,7 @@ import { RentalRequestService } from "./rental-request.service";
 export const RentalRequestController = {
   createRequest: async (req: Request, res: Response) => {
     try {
-      const tenantId = req.user!.id as string; // From auth middleware
+      const tenantId = req.user!.id as string;
       const result = await RentalRequestService.createRequest(
         tenantId,
         req.body,
@@ -22,8 +22,8 @@ export const RentalRequestController = {
 
   getLandlordRequests: async (req: Request, res: Response) => {
     try {
-      const landlordId = req.user!.id; // From auth middleware
-      const { status } = req.query; // e.g., ?status=PENDING or ?status=COMPLETED for history
+      const landlordId = req.user!.id;
+      const { status } = req.query;
 
       const result = await RentalRequestService.getLandlordRequests(
         landlordId,
