@@ -10,6 +10,7 @@ import { categoryRoutes } from "./module/category/category.routes";
 import { propertyRoutes } from "./module/Properties/properties.route";
 import { rentalRequestRoutes } from "./module/rental-request/rental-request.routes";
 import { paymentRouter } from "./module/payment/payment.rou";
+
 const app: Application = express();
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, World! RentNest");
@@ -29,7 +30,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/properties", propertyRoutes);
 app.use("/api/rental-requests", rentalRequestRoutes);
-app.use("api/payments", paymentRouter);
+app.use("/api/payments", paymentRouter);
 app.use(notFound);
 app.use(globalErrorHandler);
 export default app;
