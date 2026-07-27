@@ -18,10 +18,10 @@ const createCheckout = async (
   const rentalRequest = await prisma.rentalRequest.findUnique({
     where: {
       id: payload.rentalRequestId,
-      tenantId: authUser.id, // Ensure the request belongs to the authenticated tenant
+      tenantId: authUser.id,
     },
     include: {
-      property: true, // Includes the Property relation to access rentPrice
+      property: true,
     },
   });
 
@@ -35,14 +35,13 @@ const createCheckout = async (
   const property = rentalRequest.property;
 
   // 2. Create the Checkout Session with dynamic price from the Property
-  // Note: Property.rentPrice is a Decimal, so we convert it to a Number and multiply by 100 for Stripe (cents)
   const unitAmount = Math.round(Number(property.rentPrice) * 100);
 
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
         price_data: {
-          currency: "bdt", // Update to your local currency if needed
+          currency: "bdt",
           product_data: {
             name: `Rent for Property: ${property.title}`,
             description: `${rentalRequest.durationMonths} months lease starting ${rentalRequest.moveInDate.toDateString()}`,
@@ -67,11 +66,11 @@ const createCheckout = async (
   // 3. Create a pending Payment record in your database
   await prisma.payment.create({
     data: {
-      transactionId: session.id, // Save the Stripe session ID to verify in the webhook later
+      transactionId: session.id,
       rentalRequestId: rentalRequest.id,
       amount: property.rentPrice,
-      method: PaymentMethod.CARD, // Assuming your enum has this value
-      provider: PaymentProvider.STRIPE, // Assuming your enum has this value
+      method: PaymentMethod.CARD,
+      provider: PaymentProvider.STRIPE,
       status: PaymentStatus.PENDING,
     },
   });
@@ -94,16 +93,13 @@ const handleWebhook = async (payload: Buffer, signature: string) => {
     case "checkout.session.completed":
       const session = event.data.object as any;
 
-      // Update the Payment status in the database using the transactionId we saved earlier
       await prisma.payment.update({
         where: { transactionId: session.id },
         data: {
-          status: PaymentStatus.SUCCESS, // Adjust to match your actual enum value
+          status: PaymentStatus.SUCCESS,
           paidAt: new Date(),
         },
       });
-
-      // Optional: Update RentalRequest status to APPROVED or similar
       break;
     default:
       console.log(`Unhandled event type ${event.type}.`);
