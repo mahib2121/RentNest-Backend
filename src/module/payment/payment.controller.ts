@@ -32,8 +32,21 @@ const handleWebhook = catchAsync(
     });
   },
 );
+const getAllPayments = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await paymentService.getAllPayments();
+
+    sendResponse(res, {
+      statusCode: HttpStatus.OK,
+      success: true,
+      message: "Payments retrieved successfully",
+      data: result,
+    });
+  },
+);
 
 export const paymentController = {
   createCheckout,
   handleWebhook,
+  getAllPayments,
 };
