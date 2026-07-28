@@ -8,12 +8,4 @@ const router = Router();
 
 // Public
 router.post("/register", userController.registerUser);
-
-// Authenticated Users
-// router.get(
-//   "/me",
-//   auth(Role.ADMIN, Role.TENANT, Role.LANDLORD),
-//   userController.getMyProfile,
-// );
-
 export const userRoutes = router;
