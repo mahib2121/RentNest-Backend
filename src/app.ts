@@ -11,6 +11,7 @@ import { propertyRoutes } from "./module/Properties/properties.route";
 import { rentalRequestRoutes } from "./module/rental-request/rental-request.routes";
 import { paymentRouter } from "./module/payment/payment.rou";
 import { adminRoutes } from "./module/admin/admin.routes";
+import { reviewRoutes } from "./module/review/review.route";
 
 const app: Application = express();
 app.get("/", (req: Request, res: Response) => {
@@ -35,6 +36,7 @@ app.use("/api/properties", propertyRoutes);
 app.use("/api/rental-requests", rentalRequestRoutes);
 app.use("/api/payments", paymentRouter);
 app.use("/api/admin", adminRoutes);
+//app.use("/api/reviews",reviewRoutes)
 app.use(notFound);
 app.use(globalErrorHandler);
 export default app;
