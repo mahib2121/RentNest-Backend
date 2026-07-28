@@ -36,7 +36,7 @@ app.use("/api/properties", propertyRoutes);
 app.use("/api/rental-requests", rentalRequestRoutes);
 app.use("/api/payments", paymentRouter);
 app.use("/api/admin", adminRoutes);
-//app.use("/api/reviews",reviewRoutes)
+app.use("/api/reviews",reviewRoutes)
 app.use(notFound);
 app.use(globalErrorHandler);
 export default app;
